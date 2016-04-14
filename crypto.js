@@ -5,16 +5,16 @@ var RUNTIMES = 10000;
 var KEYSIZE = 128;
 
 module.exports = {
-	
+
 	/*
-	* This runs SHA256 PBKDF2 on the given data with the given salt.  
+	* This runs SHA256 PBKDF2 on the given data with the given salt.
 	*/
 	pbkdf2: function(data, salt, callback) {
 		if (data && salt)
 			{
 				crypto.pbkdf2(data, salt, RUNTIMES, KEYSIZE, 'sha256', function (err, key) {
-					
-					if (err != null) {
+
+					if (err !== null) {
 						callback(err, null);
 					} else {
 						callback(null, key.toString('hex'));
@@ -28,13 +28,13 @@ module.exports = {
 
 	},
 	random_hash : function(length) {
-		
+
 		if (length === undefined) {
 			length = 16;
 		}
-		
+
 		var hash = crypto.randomBytes(length / 2).toString('hex');
-		
+
 		return hash;
 	},
 	md5_file: function(filename,callback){
@@ -61,8 +61,7 @@ function get_file_hash(filename,shasum,callback)
 
 		filestream.on('end', function() {
 		  var hash = shasum.digest('hex');
-		  
+
 		  callback(hash);
 		});
 	}
-

@@ -8,6 +8,6 @@ module.exports = {
 		return (new Buffer(input).toString('base64'));
 	},
 	base64_decode: function(input) {
-		return (new Buffer(input, 'base64').toString('ascii'))
+		return (new Buffer(input, 'base64').toString('ascii'));
 	}
 };
