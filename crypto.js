@@ -12,14 +12,14 @@ module.exports = {
 	pbkdf2: function(data, salt, callback) {
 		if (data && salt)
 			{
-				crypto.pbkdf2(data, salt, RUNTIMES, KEYSIZE, 'sha256', function (err, key) {
+				crypto.pbkdf2(data, salt, RUNTIMES, KEYSIZE, 'sha256', function (error, key) {
 
-					if (err !== null) {
-						callback(err, null);
-					} else {
+					if (!error) {
 						callback(null, key.toString('hex'));
+					} else {
+						callback(error, null);
 					}
-					
+
 				});
 
 			}else{
@@ -38,12 +38,12 @@ module.exports = {
 		return hash;
 	},
 	md5_file: function(filename,callback){
-		var shasum = crypto.createHash('md5');
-		get_file_hash(filename,shasum,callback);
+		var hash_algorithm = crypto.createHash('md5');
+		get_file_hash(filename, hash_algorithm, callback);
 	},
 	sha1_file: function(filename,callback){
-		var shasum = crypto.createHash('sha1');
-		get_file_hash(filename,shasum,callback);
+		var hash_algorithm = crypto.createHash('sha1');
+		get_file_hash(filename, hash_algorithm, callback);
 	},
 	sha256_string: function(value) {
 		return crypto.createHash('sha256').update(value).digest("hex");
@@ -51,17 +51,17 @@ module.exports = {
 
 };
 
-function get_file_hash(filename,shasum,callback)
+function get_file_hash(filename, hash_algorithm, callback)
 	{
 		// Derived from example at http://nodejs.org/api/crypto.html
 		var filestream = fs.ReadStream(filename);
 		filestream.on('data', function(d) {
-		  shasum.update(d);
+		  hash_algorithm.update(d);
 		});
 
 		filestream.on('end', function() {
-		  var hash = shasum.digest('hex');
+		  var hash = hash_algorithm.digest('hex');
 
-		  callback(hash);
+		  callback(null, hash);
 		});
 	}
