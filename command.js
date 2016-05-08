@@ -31,7 +31,6 @@ module.exports = {
 
 						}
 
-					console.log(command_string);
 
 					child = exec(command_string, function (error, stdout, stderr) {
 						if (!error) {
