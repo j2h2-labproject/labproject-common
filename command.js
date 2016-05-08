@@ -23,13 +23,15 @@ module.exports = {
 					for (var i in param)
 						{
 							s_param = sanitize.parameter(param[i]);
-							if (param.indexOf(" ") != -1) {
+							if (s_param.indexOf(" ") != -1) {
 									command_string += " '" + s_param + "'";
 							} else {
 								command_string += " " + s_param;
 							}
 
 						}
+
+					console.log(command_string);
 
 					child = exec(command_string, function (error, stdout, stderr) {
 						if (!error) {
