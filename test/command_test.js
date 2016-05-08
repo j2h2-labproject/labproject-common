@@ -42,6 +42,38 @@ describe('command Object:', function(){
 
 		});
 
+		it('should run a command with spaces', function(done){
+
+			command.run("touch", ["/tmp/stuff here"], function(err, stdout, stderr){
+
+				(err === null).should.be.false;
+
+				stdout.should.be.instanceof(Array);
+
+				stderr.should.be.instanceof(Array);
+				stderr[0].should.equal("");
+
+				done();
+			});
+
+		});
+
+		it('should run a command with spaces', function(done){
+
+			command.run("rm", ["/tmp/stuff here"], function(err, stdout, stderr){
+
+				(err === null).should.be.false;
+
+				stdout.should.be.instanceof(Array);
+
+				stderr.should.be.instanceof(Array);
+				stderr[0].should.equal("");
+
+				done();
+			});
+
+		});
+
 		it('should not run the command (second param is not array)', function(done){
 
 			command.run("ls", "-la", function(err, stdout, stderr){
