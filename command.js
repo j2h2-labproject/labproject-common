@@ -22,11 +22,11 @@ module.exports = {
 
 					for (var i in param)
 						{
-							param = sanitize.parameter(param[i]);
+							s_param = sanitize.parameter(param[i]);
 							if (param.indexOf(" ") != -1) {
-									command_string += " '" + param + "'";
+									command_string += " '" + s_param + "'";
 							} else {
-								command_string += " " + param;
+								command_string += " " + s_param;
 							}
 
 						}
