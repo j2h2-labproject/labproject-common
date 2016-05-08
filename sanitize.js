@@ -13,10 +13,10 @@ module.exports = {
 		return input.replace(/[^- a-zA-Z0-9'"\(\)%&.?!@$#=:\_\s]/g,"");
 	},
 	path: function(input){
-		return input.replace(/[^-a-zA-Z0-9\/._]/g,"");
+		return input.replace(/[^-a-zA-Z0-9\/._ ]/g,"");
 	},
 	parameter: function(input){
-		return input.replace(/[^-a-zA-Z0-9_=./]/g,"");
+		return input.replace(/[^-a-zA-Z0-9_=./ ]/g,"");
 	},
 	safe_command: function(input){
 		return input.replace(/[^-a-zA-Z0-9_]/g,"");

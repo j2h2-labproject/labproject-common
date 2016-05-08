@@ -37,21 +37,21 @@ describe('sanitize Object:', function(){
 
 		it('path should only allow path characters', function(){
 
-			var l_input = "/path/to/something-_123ABCDefgh!@#$\nhithere()'\""
+			var l_input = "/path/to/ something-_123ABCDefgh!@#$\nhithere()'\""
 
 			var new_input = sanitize.path(l_input);
 
-			new_input.should.equal("/path/to/something-_123ABCDefghhithere");
+			new_input.should.equal("/path/to/ something-_123ABCDefghhithere");
 
 		});
 
 		it('parameter should only allow parameter characters', function(){
 
-			var l_input = "-a b !@#$% 1 2 /<>\"':=."
+			var l_input = "- ab!@#$%12/<>\"':=. "
 
 			var new_input = sanitize.parameter(l_input);
 
-			new_input.should.equal("-ab12/=.");
+			new_input.should.equal("- ab12/=. ");
 
 		});
 
