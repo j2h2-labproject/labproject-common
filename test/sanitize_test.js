@@ -9,7 +9,7 @@ describe('sanitize Object:', function(){
 
 	describe('sanitize functions', function(){
 
-		var input = "-_123ABCDefgh!@#$;<div></div>\nhithere()'\"";
+		var input = ".-_123ABCDefgh!@#$;<div></div>\nhithere()'\"";
 
 		it('alphanum_string should only allow alpha-numeric characters', function(){
 
@@ -19,11 +19,11 @@ describe('sanitize Object:', function(){
 
 		});
 
-		it('simple_string should only allow alpha-numeric characters and - and _', function(){
+		it('simple_string should only allow alpha-numeric characters and -, . and _', function(){
 
 			var new_input = sanitize.simple_string(input);
 
-			new_input.should.equal("-_123ABCDefghdivdivhithere");
+			new_input.should.equal(".-_123ABCDefghdivdivhithere");
 
 		});
 
@@ -31,7 +31,7 @@ describe('sanitize Object:', function(){
 
 			var new_input = sanitize.simple_text(input);
 
-			new_input.should.equal("-_123ABCDefgh!@#$\nhithere()'\"");
+			new_input.should.equal(".-_123ABCDefgh!@#$\nhithere()'\"");
 
 		});
 

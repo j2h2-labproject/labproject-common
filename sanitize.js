@@ -5,7 +5,7 @@ module.exports = {
 	},
 	// Only allows letters, numbers and - and _, for names
 	simple_string: function(input){
-		return input.replace(/[^a-zA-Z0-9\-_]/g,"");
+		return input.replace(/[^a-zA-Z0-9\-_.]/g,"");
 	},
 	// For descriptions and sentences, no html
 	simple_text: function(input){
