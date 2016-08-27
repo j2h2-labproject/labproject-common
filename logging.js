@@ -4,7 +4,7 @@ var cli_logger_obj = null;
 
 
 function is_valid_level(value) {
-	if (value != "debug" &&  value != "notice" && value != "warning" && value != "error") {
+	if (value != "debug" &&  value != "notice" && value != "warning" && value != "error" && value != "success") {
 		return false;
 	} else {
 		return true;
@@ -19,7 +19,8 @@ try {
 			"error": cli_logger.redBright,
 			"warning": cli_logger.xterm(202),
 			"notice": cli_logger.blueBright,
-			"debug": cli_logger.cyanBright
+			"debug": cli_logger.cyanBright,
+			"success": cli_logger.greenBright
 		};
 
 		this.log = function(level, message, callback) {
@@ -27,7 +28,7 @@ try {
 			if (is_valid_level(level)) {
 				if (typeof message == "string")
 					{
-						console.log(this.colors[level]("> " + level.toUpperCase() + ": " + message + "\n"));
+						console.log(this.colors[level]("> " + level.toUpperCase() + ": " + message));
 					}else{
 						console.log(this.colors[level]("> " + level.toUpperCase() + "\n\n"), message, this.colors[level]("\n\n> " + level.toUpperCase()));
 					}
