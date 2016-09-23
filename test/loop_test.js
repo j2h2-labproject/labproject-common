@@ -16,9 +16,15 @@ describe('loop Object:', function(){
 
       loop.foreach(
         test_array,
-        function(loc, data, next) {
+        function(loc, data, pass_data, next) {
           loc.should.equal(expect_next);
           data.should.equal(test_array[expect_next]);
+          if (loc > 0) {
+            pass_data.should.equal(test_array[loc - 1])
+          } else {
+            (pass_data === null).should.equal(true);
+          }
+
           expect_next += 1;
 
           command.run("ls", ["-la", data], function(err, stdout, stderr){
@@ -28,12 +34,12 @@ describe('loop Object:', function(){
     				stderr.should.be.instanceof(Array);
     				stderr[0].should.equal("");
 
-    				next(null, true);
+    				next(null, test_array[loc]);
     			});
         },
         function(error, result) {
           (error === null).should.be.false;
-          result.should.equal(true);
+          result.should.equal('/etc');
           done();
         });
 
