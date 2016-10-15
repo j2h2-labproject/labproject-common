@@ -7,3 +7,7 @@ This is used as a submodule for the other repos.
 ## Contributing
 
 Let me know at jacob (at) j2h2.com
+
+## License
+
+This project is licensed under the GNU General Public License (GPL) v3.0
