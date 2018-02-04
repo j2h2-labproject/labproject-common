@@ -51,7 +51,7 @@ describe('sanitize Object:', function(){
 
             var new_input = sanitize.parameter(l_input);
 
-            new_input.should.equal("- ab12/=. ");
+            new_input.should.equal("- ab12/:=. ");
 
         });
 
