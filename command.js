@@ -21,58 +21,55 @@ var sanitize = require('./sanitize');
 var exec = require('child_process').exec;
 
 module.exports = {
-
-    run: function(command, param, callback) {
+    // Execute a command
+    run: function(command, params, callback) {
 
         command = sanitize.path(command).trim();
 
-        if (param instanceof Array)
-            {
+        if (params instanceof Array) {
+            if (command === "") {
+                callback(new Error("Command cannot be blank"), null, null);
+            } else {
 
-                if (command === "") {
-                    callback(new Error("Command cannot be blank"), null, null);
-                } else {
+                command_string = command;
 
-                    command_string = command;
-
-                    for (var i in param)
-                        {
-                            s_param = sanitize.parameter(param[i]);
-                            if (s_param.indexOf(" ") != -1) {
-                                    command_string += " '" + s_param + "'";
-                            } else {
-                                command_string += " " + s_param;
-                            }
-
-                        }
-
-
-                    child = exec(command_string, function (error, stdout, stderr) {
-                        if (!error) {
-                            var stdout_lines = stdout.split(/\n/);
-                            var stderr_lines = stderr.split(/\n/);
-
-                            for (var i in stdout_lines)
-                                {
-                                    stdout_lines[i] = stdout_lines[i].trim();
-                                }
-
-                            for (var j in stderr_lines)
-                                {
-                                    stderr_lines[j] = stderr_lines[j].trim();
-                                }
-
-                            callback(null, stdout_lines, stderr_lines);
-                        }else{
-                            callback(error, null, null);
-                        }
-
-                    });
+                for (var i in params) {
+                    s_params = sanitize.parameter(params[i]);
+                    if (s_params.indexOf(" ") != -1) {
+                            command_string += " '" + s_params + "'";
+                    } else {
+                        command_string += " " + s_params;
+                    }
                 }
 
-            } else {
-                callback(new Error("param must be an array"), null, null);
-            }
+                child = exec(command_string, function (error, stdout, stderr) {
+                    if (!error) {
+                        var stdout_lines = stdout.split(/\n/);
+                        var stderr_lines = stderr.split(/\n/);
 
+                        for (var i in stdout_lines) {
+                            stdout_lines[i] = stdout_lines[i].trim();
+                        }
+
+                        for (var j in stderr_lines) {
+                            stderr_lines[j] = stderr_lines[j].trim();
+                        }
+
+                        callback(null, stdout_lines, stderr_lines);
+                    } else {
+                        callback(error, null, null);
+                    }
+                });
+            }
+        } else {
+            callback(new Error("params must be an array"), null, null);
+        }
+    },
+    // Execute a command as sudo
+    sudo_run: function(command, params, callback) {
+        params.unshift(command);
+        params.unshift("-n");
+        
+        module.exports.run("sudo", params, callback);
     }
 };

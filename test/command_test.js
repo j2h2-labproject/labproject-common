@@ -3,8 +3,6 @@ var LABPROJECT_COMMON_BASE = process.cwd();
 
 var command = require(LABPROJECT_COMMON_BASE + '/command');
 
-
-
 var should = require("should");
 
 describe('command Object:', function(){
@@ -12,9 +10,20 @@ describe('command Object:', function(){
     describe('Run Command', function(){
 
         it('should run the command with no errors', function(done){
-
-
             command.run("ls", ["-la"], function(err, stdout, stderr){
+                (err === null).should.be.false;
+
+                stdout.should.be.instanceof(Array);
+
+                stderr.should.be.instanceof(Array);
+                stderr[0].should.equal("");
+
+                done();
+            });
+        });
+
+        it('should run the command (with sudo) with no errors', function(done) {
+            command.sudo_run("ip", ["link", "list"], function(err, stdout, stderr) {
 
                 (err === null).should.be.false;
 
@@ -25,7 +34,6 @@ describe('command Object:', function(){
 
                 done();
             });
-
         });
 
         it('should run the command with error from shell', function(done){
