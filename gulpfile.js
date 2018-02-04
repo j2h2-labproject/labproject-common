@@ -5,11 +5,11 @@ var exec = require('child_process').exec;
 var clicolor = require("cli-color");
 
 var colors = {
-	error: clicolor.redBright,
-	warning: clicolor.xterm(202),
-	debug: clicolor.cyanBright,
-	notice: clicolor.blueBright,
-	good: clicolor.greenBright
+    error: clicolor.redBright,
+    warning: clicolor.xterm(202),
+    debug: clicolor.cyanBright,
+    notice: clicolor.blueBright,
+    good: clicolor.greenBright
 };
 
 var JAVASCRIPT_PATH = '**/*.js';

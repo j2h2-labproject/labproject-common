@@ -25,81 +25,81 @@ var sanitize = require('./sanitize');
 
 function download(url_string, file_pipe, callback) {
 
-	var client = null;
+    var client = null;
 
-	if (url_string.indexOf("https:") === 0) {
-		client = https;
-	} else {
-		client = http;
-	}
+    if (url_string.indexOf("https:") === 0) {
+        client = https;
+    } else {
+        client = http;
+    }
 
-	var url_parse = null;
+    var url_parse = null;
 
-	try {
-		url_parse = url.parse(url_string);
-	} catch(e) {
-		callback(new Error("Error parsing url"), null, null);
-		return;
-	}
+    try {
+        url_parse = url.parse(url_string);
+    } catch(e) {
+        callback(new Error("Error parsing url"), null, null);
+        return;
+    }
 
-	var connection = {
-		hostname: url_parse.hostname,
-		headers: {
-		'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:16.0.1) Gecko/20121011 Firefox/42.0'
-		},
-		path: url_parse.path
-	};
-
-
-	client.get(connection, function(response) {
+    var connection = {
+        hostname: url_parse.hostname,
+        headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:16.0.1) Gecko/20121011 Firefox/42.0'
+        },
+        path: url_parse.path
+    };
 
 
-		if (response.statusCode > 400) {
-
-			callback(new Error("400 level error"), null, null);
-
-		} else if (response.statusCode > 300 && response.statusCode < 400) {
-
-			try {
-				inner_parse = url.parse(response.headers.location);
-			} catch(e) {
-				callback(new Error("Error parsing url"), null, null);
-			}
-
-			new_url = "";
-
-			if (!inner_parse.hostname) {
-				new_url = url_parse.hostname + "/" + response.headers.location;
-			} else {
-				new_url = response.headers.location;
-			}
-
-			download(new_url, file_pipe, callback);
+    client.get(connection, function(response) {
 
 
-		} else {
+        if (response.statusCode > 400) {
 
-			var file_length = 0;
+            callback(new Error("400 level error"), null, null);
 
-			response.pipe(file_pipe);
+        } else if (response.statusCode > 300 && response.statusCode < 400) {
 
-			response.on('data', function (chunk) {
-				file_length += chunk.length;
-			});
+            try {
+                inner_parse = url.parse(response.headers.location);
+            } catch(e) {
+                callback(new Error("Error parsing url"), null, null);
+            }
 
-			response.on('error', function (error) {
-				file_pipe.end();
-				callback(new Error("Could not download file"), null, null);
-			});
+            new_url = "";
 
-			response.on('end', function () {
-				file_pipe.end();
-				callback(null, file_length);
-			});
-		}
+            if (!inner_parse.hostname) {
+                new_url = url_parse.hostname + "/" + response.headers.location;
+            } else {
+                new_url = response.headers.location;
+            }
+
+            download(new_url, file_pipe, callback);
 
 
-	});
+        } else {
+
+            var file_length = 0;
+
+            response.pipe(file_pipe);
+
+            response.on('data', function (chunk) {
+                file_length += chunk.length;
+            });
+
+            response.on('error', function (error) {
+                file_pipe.end();
+                callback(new Error("Could not download file"), null, null);
+            });
+
+            response.on('end', function () {
+                file_pipe.end();
+                callback(null, file_length);
+            });
+        }
+
+
+    });
 
 
 }
@@ -108,43 +108,43 @@ function download(url_string, file_pipe, callback) {
 module.exports = {
 
 
-	/*
-	 * Callback: error, file_path(string), length(int)
-	 */
-	download_file: function(url_string, file_path, callback){
+    /*
+     * Callback: error, file_path(string), length(int)
+     */
+    download_file: function(url_string, file_path, callback){
 
-		file_path = sanitize.path(file_path);
+        file_path = sanitize.path(file_path);
 
-		fs.stat(file_path, function(err, stat) {
-			if (err) {
+        fs.stat(file_path, function(err, stat) {
+            if (err) {
 
-				// Check if we can write to location
-				var filestream = fs.createWriteStream(file_path, {flags: "wx"});
-				var is_error = false;
+                // Check if we can write to location
+                var filestream = fs.createWriteStream(file_path, {flags: "wx"});
+                var is_error = false;
 
-				filestream.on('error', function (error) {
-					callback(new Error("Could not access output location"), null, null);
-					is_error = true;
-					filestream.end();
-					return;
-				});
+                filestream.on('error', function (error) {
+                    callback(new Error("Could not access output location"), null, null);
+                    is_error = true;
+                    filestream.end();
+                    return;
+                });
 
-				filestream.on('finish', function() {
+                filestream.on('finish', function() {
 
-				});
-
-
-
-				download(url_string, filestream, function(error, length){
-					callback(error, length, file_path);
-				});
+                });
 
 
-			} else {
-				callback(new Error("Output file exists"), null, null);
-			}
-		});
+
+                download(url_string, filestream, function(error, length){
+                    callback(error, length, file_path);
+                });
 
 
-	}
+            } else {
+                callback(new Error("Output file exists"), null, null);
+            }
+        });
+
+
+    }
 };

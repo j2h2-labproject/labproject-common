@@ -7,9 +7,9 @@ var should = require("should");
 
 describe('loop Object:', function(){
 
-	describe('Run Command', function(){
+    describe('Run Command', function(){
 
-		it('should loop through the objects in order', function(done){
+        it('should loop through the objects in order', function(done){
 
       var expect_next = 0;
       var test_array = ['/bin', '/sbin', '/etc'];
@@ -28,14 +28,14 @@ describe('loop Object:', function(){
           expect_next += 1;
 
           command.run("ls", ["-la", data], function(err, stdout, stderr){
-    				(err === null).should.equal(true);
+                    (err === null).should.equal(true);
 
-    				stdout.should.be.instanceof(Array);
-    				stderr.should.be.instanceof(Array);
-    				stderr[0].should.equal("");
+                    stdout.should.be.instanceof(Array);
+                    stderr.should.be.instanceof(Array);
+                    stderr[0].should.equal("");
 
-    				next(null, test_array[loc]);
-    			});
+                    next(null, test_array[loc]);
+                });
         },
         function(error, result) {
           (error === null).should.be.false;
@@ -44,9 +44,9 @@ describe('loop Object:', function(){
         });
 
 
-		});
+        });
 
 
-	});
+    });
 
 });

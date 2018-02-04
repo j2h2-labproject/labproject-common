@@ -9,95 +9,95 @@ var should = require("should");
 
 describe('command Object:', function(){
 
-	describe('Run Command', function(){
+    describe('Run Command', function(){
 
-		it('should run the command with no errors', function(done){
+        it('should run the command with no errors', function(done){
 
 
-			command.run("ls", ["-la"], function(err, stdout, stderr){
+            command.run("ls", ["-la"], function(err, stdout, stderr){
 
-				(err === null).should.be.false;
+                (err === null).should.be.false;
 
-				stdout.should.be.instanceof(Array);
+                stdout.should.be.instanceof(Array);
 
-				stderr.should.be.instanceof(Array);
-				stderr[0].should.equal("");
+                stderr.should.be.instanceof(Array);
+                stderr[0].should.equal("");
 
-				done();
-			});
+                done();
+            });
 
-		});
+        });
 
-		it('should run the command with error from shell', function(done){
+        it('should run the command with error from shell', function(done){
 
-			command.run("ls", ["-z"], function(err, stdout, stderr){
+            command.run("ls", ["-z"], function(err, stdout, stderr){
 
-				(err === null).should.be.false;
-				err.should.be.instanceof(Error);
-				(stdout === null).should.be.true;
-				(stderr === null).should.be.true;
+                (err === null).should.be.false;
+                err.should.be.instanceof(Error);
+                (stdout === null).should.be.true;
+                (stderr === null).should.be.true;
 
-				done();
-			});
+                done();
+            });
 
-		});
+        });
 
-		it('should run a command with spaces', function(done){
+        it('should run a command with spaces', function(done){
 
-			command.run("touch", ["/tmp/stuff here"], function(err, stdout, stderr){
+            command.run("touch", ["/tmp/stuff here"], function(err, stdout, stderr){
 
-				(err === null).should.be.false;
+                (err === null).should.be.false;
 
-				stdout.should.be.instanceof(Array);
+                stdout.should.be.instanceof(Array);
 
-				stderr.should.be.instanceof(Array);
-				stderr[0].should.equal("");
+                stderr.should.be.instanceof(Array);
+                stderr[0].should.equal("");
 
-				done();
-			});
+                done();
+            });
 
-		});
+        });
 
-		it('should run a command with spaces', function(done){
+        it('should run a command with spaces', function(done){
 
-			command.run("rm", ["/tmp/stuff here"], function(err, stdout, stderr){
+            command.run("rm", ["/tmp/stuff here"], function(err, stdout, stderr){
 
-				(err === null).should.be.false;
+                (err === null).should.be.false;
 
-				stdout.should.be.instanceof(Array);
+                stdout.should.be.instanceof(Array);
 
-				stderr.should.be.instanceof(Array);
-				stderr[0].should.equal("");
+                stderr.should.be.instanceof(Array);
+                stderr[0].should.equal("");
 
-				done();
-			});
+                done();
+            });
 
-		});
+        });
 
-		it('should not run the command (second param is not array)', function(done){
+        it('should not run the command (second param is not array)', function(done){
 
-			command.run("ls", "-la", function(err, stdout, stderr){
-				(err === null).should.be.false;
-				err.should.be.instanceof(Error);
-				(stdout === null).should.be.true;
-				(stderr === null).should.be.true;
-				done();
-			});
+            command.run("ls", "-la", function(err, stdout, stderr){
+                (err === null).should.be.false;
+                err.should.be.instanceof(Error);
+                (stdout === null).should.be.true;
+                (stderr === null).should.be.true;
+                done();
+            });
 
-		});
+        });
 
-		it('also should not run the command', function(done){
+        it('also should not run the command', function(done){
 
-			command.run(";", [], function(err, stdout, stderr){
-				(err === null).should.be.false;
-				err.should.be.instanceof(Error);
-				(stdout === null).should.be.true;
-				(stderr === null).should.be.true;
-				done();
-			});
+            command.run(";", [], function(err, stdout, stderr){
+                (err === null).should.be.false;
+                err.should.be.instanceof(Error);
+                (stdout === null).should.be.true;
+                (stderr === null).should.be.true;
+                done();
+            });
 
-		});
+        });
 
-	});
+    });
 
 });

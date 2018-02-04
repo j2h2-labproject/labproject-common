@@ -22,57 +22,57 @@ var exec = require('child_process').exec;
 
 module.exports = {
 
-	run: function(command, param, callback) {
+    run: function(command, param, callback) {
 
-		command = sanitize.path(command).trim();
+        command = sanitize.path(command).trim();
 
-		if (param instanceof Array)
-			{
+        if (param instanceof Array)
+            {
 
-				if (command === "") {
-					callback(new Error("Command cannot be blank"), null, null);
-				} else {
+                if (command === "") {
+                    callback(new Error("Command cannot be blank"), null, null);
+                } else {
 
-					command_string = command;
+                    command_string = command;
 
-					for (var i in param)
-						{
-							s_param = sanitize.parameter(param[i]);
-							if (s_param.indexOf(" ") != -1) {
-									command_string += " '" + s_param + "'";
-							} else {
-								command_string += " " + s_param;
-							}
+                    for (var i in param)
+                        {
+                            s_param = sanitize.parameter(param[i]);
+                            if (s_param.indexOf(" ") != -1) {
+                                    command_string += " '" + s_param + "'";
+                            } else {
+                                command_string += " " + s_param;
+                            }
 
-						}
+                        }
 
 
-					child = exec(command_string, function (error, stdout, stderr) {
-						if (!error) {
-							var stdout_lines = stdout.split(/\n/);
-							var stderr_lines = stderr.split(/\n/);
+                    child = exec(command_string, function (error, stdout, stderr) {
+                        if (!error) {
+                            var stdout_lines = stdout.split(/\n/);
+                            var stderr_lines = stderr.split(/\n/);
 
-							for (var i in stdout_lines)
-								{
-									stdout_lines[i] = stdout_lines[i].trim();
-								}
+                            for (var i in stdout_lines)
+                                {
+                                    stdout_lines[i] = stdout_lines[i].trim();
+                                }
 
-							for (var j in stderr_lines)
-								{
-									stderr_lines[j] = stderr_lines[j].trim();
-								}
+                            for (var j in stderr_lines)
+                                {
+                                    stderr_lines[j] = stderr_lines[j].trim();
+                                }
 
-							callback(null, stdout_lines, stderr_lines);
-						}else{
-							callback(error, null, null);
-						}
+                            callback(null, stdout_lines, stderr_lines);
+                        }else{
+                            callback(error, null, null);
+                        }
 
-					});
-				}
+                    });
+                }
 
-			} else {
-				callback(new Error("param must be an array"), null, null);
-			}
+            } else {
+                callback(new Error("param must be an array"), null, null);
+            }
 
-	}
+    }
 };
