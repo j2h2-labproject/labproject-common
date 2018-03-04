@@ -38,5 +38,8 @@ module.exports = {
     },
     safe_command: function(input){
         return input.replace(/[^-a-zA-Z0-9_]/g,"");
+    },
+    url: function(input) {
+        return input.replace(/[^-A-Za-z0-9._~:/?#\[\]@!$&\(\)*+,;=]/g, "");
     }
 };
